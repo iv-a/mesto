@@ -1,0 +1,9 @@
+/* стили сторонних разработчиков */
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts/fonts.css);
+
+/* стили для блоков */
+@import url(../blocks/page/page.css);
+
+/* стили для элементов */
+@import url(../blocks/page/__container/page__container.css);
