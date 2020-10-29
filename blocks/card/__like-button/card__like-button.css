@@ -9,6 +9,7 @@
   border: none;
   opacity: 1;
   transition: opacity 0.2s linear;
+  cursor: pointer;
 }
 
 .card__like-button:hover {
