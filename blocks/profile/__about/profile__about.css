@@ -1,8 +1,8 @@
 .profile__about {
-  grid-column: 1;
-  grid-row: 2;
   margin: 0;
   padding: 0;
+  grid-column: 1;
+  grid-row: 2;
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
@@ -14,6 +14,5 @@
     text-align: center;
     font-size: 14px;
     line-height: 17px;
-    grid-column: 1/3;
   }
 }
