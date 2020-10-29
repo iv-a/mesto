@@ -15,7 +15,6 @@ function showPopup () {
     aboutInput.value = profileAbout.textContent;
     popup.classList.add('popup_opened');
     formElement.addEventListener('submit', formSubmitHandler);
-    formElement.addEventListener('submit', hidePopup);
 }
 
 function hidePopup () {
@@ -26,6 +25,7 @@ function formSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileAbout.textContent = aboutInput.value;
+    hidePopup();
 }
 
 editButton.addEventListener('click', showPopup);
