@@ -90,18 +90,28 @@
         </form>
       </div>
     </div>
+
     <div class="popup page__popup popup_type_add-card">
-      <div class="popup__container">
-        <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-        <h2 class="popup__title">Новое место</h2>
+      <div class="popup__container popup__container_type_add-card">
+        <button class="popup__close-button popup__close-button_type_add-card" type="button" aria-label="Закрыть"></button>
+        <h2 class="popup__title popup__title_type_add-card">Новое место</h2>
         <form class="popup__form" name="addCardForm">
           <input class="popup__input popup__input_type_place" type="text" name="placeInput" placeholder="Название">
           <input class="popup__input popup__input_type_link" type="url" name="linkInput" placeholder="Ссылка на картинку">
-          <button class="popup__save-button" type="submit">Создать</button>
+          <button class="popup__save-button popup__save-button_type_add-card" type="submit">Создать</button>
         </form>
       </div>
     </div>
   </div>
+
+  <div class="popup page__popup popup_type_view-image">
+    <figure class="popup__image-container">
+      <button class="popup__close-button popup__close-button_type_view-image" type="button" aria-label="Закрыть"></button>
+      <img class="popup__image" src="./images/karachaevo-cherkesiya.jpg" alt="">
+      <figcaption class="popup__image-title">Карачаево-Черкессия</figcaption>
+    </figure>
+  </div>
+
   <template id="card-template">
     <li class="card">
       <img class="card__photo" src="" alt="">
