@@ -1,7 +1,7 @@
 .page__header {
   margin: 45px auto 0;
   width: 882px;
-  min-height: 73px;
+  padding-bottom: 36px;
 }
 
 @media screen and (max-width: 919px) {
@@ -13,6 +13,6 @@
 
 @media screen and (max-width: 767px) {
   .page__header {
-    min-height: 56px;
+    padding-bottom: 28px;
   }
 }
