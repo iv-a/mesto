@@ -75,6 +75,7 @@ function addCard(place, link, isInitial) {
     const cardImage = cardElement.querySelector('.card__photo');
     const imageButton = cardElement.querySelector('.card__open-photo-button');
     const likeButton = cardElement.querySelector('.card__like-button');
+    const deleteButton = cardElement.querySelector('.card__delete-button');
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
@@ -91,6 +92,11 @@ function addCard(place, link, isInitial) {
     });
     // Обработчик клика по изображению
     imageButton.addEventListener('click', () => showImagePopup(place, link));
+    // Обработчик клика по корзине
+    deleteButton.addEventListener('click', function (evt) {
+        const deleteTarget = evt.target;
+        deleteTarget.closest('.card').remove();
+    })
 }
 
 // Функция открытия попапа с изображением
