@@ -83,6 +83,9 @@ function addCard(place, link, isInitial) {
     } else {
         cardsList.prepend(cardElement);
     }
+    cardElement.querySelector('.card__like-button').addEventListener('click', function (evt) {
+        evt.target.classList.toggle('card__like-button_active');
+    });
 }
 
 // Обработчик события 'submit' формы добавления новой карточки.
