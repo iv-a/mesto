@@ -49,8 +49,6 @@
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__container/_type/popup__container_type_add-card.css);
 @import url(../blocks/popup/__title/_type/popup__title_type_add-card.css);
-/*@import url(../blocks/popup/__input/_type/popup__input_type_name.css);*/
-/*@import url(../blocks/popup/__input/_type/popup__input_type_about.css);*/
 @import url(../blocks/popup/__input/_type/popup__input_type_place.css);
 @import url(../blocks/popup/__input/_type/popup__input_type_link.css);
 @import url(../blocks/popup/__save-button/_type/popup__save-button_type_add-card.css);
