@@ -73,6 +73,8 @@ function addCard(place, link, isInitial) {
     const cardElement = cardTemplate.cloneNode(true);
     const cardName = cardElement.querySelector('.card__title');
     const cardImage = cardElement.querySelector('.card__photo');
+    const imageButton = cardElement.querySelector('.card__open-photo-button');
+    const likeButton = cardElement.querySelector('.card__like-button');
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
@@ -83,9 +85,23 @@ function addCard(place, link, isInitial) {
     } else {
         cardsList.prepend(cardElement);
     }
-    cardElement.querySelector('.card__like-button').addEventListener('click', function (evt) {
+    // Обработчик клика по кнопке лайк
+    likeButton.addEventListener('click', function (evt) {
         evt.target.classList.toggle('card__like-button_active');
     });
+    // Обработчик клика по изображению
+    imageButton.addEventListener('click', () => showImagePopup(place, link));
+}
+
+// Функция открытия попапа с изображением
+function showImagePopup(place, link) {
+    const imagePopup = document.querySelector('.popup_type_view-image');
+    const image = imagePopup.querySelector('.popup__image');
+    const title = imagePopup.querySelector('.popup__image-title');
+    image.src = link;
+    image.alt = place;
+    title.textContent = place;
+    openPopup(imagePopup);
 }
 
 // Обработчик события 'submit' формы добавления новой карточки.
