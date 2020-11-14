@@ -57,14 +57,14 @@ function initialCardsRender() {
             link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
         }
     ];
-    initialCards.forEach((item, i, cards) => {
-        addCard(item.name, item.link, true);
+    initialCards.forEach((item) => {
+        addCard(cardsList, createCard(item.name, item.link), true);
     });
 }
 
-// Функция addCard(place, link, isInitial) добавляет на страницу новую карточку,
-// получая на вход ее заголовок, ссылку на изображение и true/false.
-function addCard(place, link, isInitial) {
+// Функция createCard создает DOM элемент карточки.
+// На вход получает название карточки и ссылку на изображение
+function createCard(place, link) {
     // Выбираем template с идентификатором card-template и сохраняем его свойство content в переменную cardTemplate.
     // Клонируем шаблон, сохраняя результат в переменной cardElement.
     // В атрибут src изображения с классом card__photo записываем ссылку, в атрибут alt - название.
@@ -79,13 +79,6 @@ function addCard(place, link, isInitial) {
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
-    // При инициализации карточки довавляются в конец контейнера с ними,
-    // при добавлении новой - в начало контейнера.
-    if (isInitial) {
-        cardsList.append(cardElement);
-    } else {
-        cardsList.prepend(cardElement);
-    }
     // Обработчик клика по кнопке лайк
     likeButton.addEventListener('click', function (evt) {
         evt.target.classList.toggle('card__like-button_active');
@@ -96,7 +89,22 @@ function addCard(place, link, isInitial) {
     deleteButton.addEventListener('click', function (evt) {
         const deleteTarget = evt.target;
         deleteTarget.closest('.card').remove();
-    })
+    });
+    // Возвращаем созданную карточку
+    return cardElement;
+}
+
+// Функция добавления карточки в контейнер.
+// На вход получает контейнер, в который будет добавлена карточка,
+// саму карточку и логическое true/false, определяющее порядок добавления карточки:
+// При инициализации карточки довавляются в конец контейнера,
+// а при добавлении новой - в начало контейнера.
+function addCard(container, cardElement, isInitial) {
+    if (isInitial) {
+        container.append(cardElement);
+    } else {
+        container.prepend(cardElement);
+    }
 }
 
 // Функция открытия попапа с изображением
@@ -117,7 +125,7 @@ function formAddCardSubmitHandler(evt) {
     // ввода заголовка новой карточки, ссылки на ее изображение и значение false для условного выражения (isInitial).
     // Закрываем попап добавления новой карточки.
     evt.preventDefault();
-    addCard(placeInput.value, linkInput.value, false);
+    addCard(cardsList, createCard(placeInput.value, linkInput.value), false);
     closePopup(addCardPopup);
 }
 
@@ -144,28 +152,24 @@ const openPopup = (popup) => {
     closeButton.addEventListener('click', () => closePopup(popup));
 };
 
-// Функция открытия попапа редактирования профиля
-function showEditProfilePopup() {
-    const formElement = editProfilePopup.querySelector('.popup__form');
+
+// Инициальзация карточек
+initialCardsRender();
+
+// Обработчик открытия попапа с формой редактирования профиля
+editProfileButton.addEventListener('click', () => {
     nameInput.value = profileName.textContent;
     aboutInput.value = profileAbout.textContent;
     openPopup(editProfilePopup);
-    formElement.addEventListener('submit', formEditProfileSubmitHandler);
+});
 
-}
+// Обработчик сабмита формы редактирования профиля
+editProfilePopup.querySelector('.popup__form').addEventListener('submit', formEditProfileSubmitHandler);
 
-// Функция открытия попапа добавления новой карточки
-function showAddCardPopup() {
-    const formElement = addCardPopup.querySelector('.popup__form');
+// Обработчик открытия попапа с формой добавления новой карточки
+addCardButton.addEventListener('click', () => {
     openPopup(addCardPopup);
-    formElement.addEventListener('submit', formAddCardSubmitHandler);
+});
 
-}
-
-
-initialCardsRender();
-editProfileButton.addEventListener('click', showEditProfilePopup);
-addCardButton.addEventListener('click', showAddCardPopup);
-
-
-
+// Обработчик сабмита формы добавления новой карточки
+addCardPopup.querySelector('.popup__form').addEventListener('submit', formAddCardSubmitHandler);
