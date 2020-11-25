@@ -24,6 +24,16 @@ const linkInput = addCardPopup.querySelector('.popup__input_type_link');
 // Список карточек
 const cardsList = document.querySelector('.cards__list');
 
+// Объект параметров валидации
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_visible'
+};
+
 
 // Функция initialCardsRender() при загрузке страницы добавляет на нее шесть карточек из массива initialCards;
 const initialCardsRender = () => {
@@ -124,7 +134,7 @@ const formEditProfileSubmitHandler = (evt) => {
     profileName.textContent = nameInput.value;
     profileAbout.textContent = aboutInput.value;
     closePopup(editProfilePopup);
-}
+};
 
 // Функция сброса полей формы
 const resetForm = (popup) => {
