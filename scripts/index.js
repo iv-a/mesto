@@ -26,7 +26,7 @@ const cardsList = document.querySelector('.cards__list');
 
 
 // Функция initialCardsRender() при загрузке страницы добавляет на нее шесть карточек из массива initialCards;
-function initialCardsRender() {
+const initialCardsRender = () => {
     // Проходимся по всем элементам массива initialCards
     // и на каждой итеррации вызываем функцию addCard()
     // в которую передаем в качестве аргументов заголовок новой карточки,
@@ -60,11 +60,11 @@ function initialCardsRender() {
     initialCards.forEach((item) => {
         addCard(cardsList, createCard(item.name, item.link), true);
     });
-}
+};
 
 // Функция createCard создает DOM элемент карточки.
 // На вход получает название карточки и ссылку на изображение
-function createCard(place, link) {
+const createCard = (place, link) => {
     // Выбираем template с идентификатором card-template и сохраняем его свойство content в переменную cardTemplate.
     // Клонируем шаблон, сохраняя результат в переменной cardElement.
     // В атрибут src изображения с классом card__photo записываем ссылку, в атрибут alt - название.
@@ -78,23 +78,23 @@ function createCard(place, link) {
     cardName.textContent = place;
     // Возвращаем созданную карточку
     return cardElement;
-}
+};
 
 // Функция добавления карточки в контейнер.
 // На вход получает контейнер, в который будет добавлена карточка,
 // саму карточку и логическое true/false, определяющее порядок добавления карточки:
 // При инициализации карточки довавляются в конец контейнера,
 // а при добавлении новой - в начало контейнера.
-function addCard(container, cardElement, isInitial) {
+const addCard = (container, cardElement, isInitial) => {
     if (isInitial) {
         container.append(cardElement);
     } else {
         container.prepend(cardElement);
     }
-}
+};
 
 // Функция открытия попапа с изображением
-function showImagePopup(place, link) {
+const showImagePopup = (place, link) => {
     const imagePopup = document.querySelector('.popup_type_view-image');
     const image = imagePopup.querySelector('.popup__image');
     const title = imagePopup.querySelector('.popup__image-title');
@@ -102,10 +102,10 @@ function showImagePopup(place, link) {
     image.alt = place;
     title.textContent = place;
     openPopup(imagePopup);
-}
+};
 
 // Обработчик события 'submit' формы добавления новой карточки.
-function formAddCardSubmitHandler(evt) {
+const formAddCardSubmitHandler = (evt) => {
     // Отменяем стандартную отправку формы,
     // вызываем функцию addCard и передаем в нее в качестве аргументов значения из полей
     // ввода заголовка новой карточки, ссылки на ее изображение и значение false для условного выражения (isInitial).
@@ -113,10 +113,10 @@ function formAddCardSubmitHandler(evt) {
     evt.preventDefault();
     addCard(cardsList, createCard(placeInput.value, linkInput.value), false);
     closePopup(addCardPopup);
-}
+};
 
 // Обработчик события 'submit' формы редактирования профиля.
-function formEditProfileSubmitHandler (evt) {
+const formEditProfileSubmitHandler = (evt) => {
     // Отменяем стандартную отправку формы,
     // вставляем значения из полей ввода в соответствующие поля страницы.
     // Закрываем попап редактирования профиля.
