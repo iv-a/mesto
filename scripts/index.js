@@ -79,17 +79,6 @@ function createCard(place, link) {
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
-    // Обработчик клика по кнопке лайк
-    likeButton.addEventListener('click', function (evt) {
-        evt.target.classList.toggle('card__like-button_active');
-    });
-    // Обработчик клика по изображению
-    imageButton.addEventListener('click', () => showImagePopup(place, link));
-    // Обработчик клика по корзине
-    deleteButton.addEventListener('click', function (evt) {
-        const deleteTarget = evt.target;
-        deleteTarget.closest('.card').remove();
-    });
     // Возвращаем созданную карточку
     return cardElement;
 }
@@ -160,6 +149,9 @@ initialCardsRender();
 editProfileButton.addEventListener('click', () => {
     nameInput.value = profileName.textContent;
     aboutInput.value = profileAbout.textContent;
+    const saveButton = editProfilePopup.querySelector('.popup__save-button');
+    saveButton.removeAttribute('disabled');
+    saveButton.classList.remove('popup__save-button_disabled');
     openPopup(editProfilePopup);
 });
 
@@ -173,3 +165,18 @@ addCardButton.addEventListener('click', () => {
 
 // Обработчик сабмита формы добавления новой карточки
 addCardPopup.querySelector('.popup__form').addEventListener('submit', formAddCardSubmitHandler);
+
+// Обработчик событий на списке карточек.
+//  Если нажали на "Лайк", то кнопка меняет цвет.
+//  Если нажали на картинку, то открывается попап с ней.
+//  Если нажали на "Корзину", то карточка удаляется.
+cardsList.addEventListener('click', (evt) => {
+    const targetElement = evt.target;
+    if (targetElement.classList.contains('card__like-button')) {
+        targetElement.classList.toggle('card__like-button_active');
+    } else if (targetElement.classList.contains('card__photo')) {
+        showImagePopup(targetElement.alt, targetElement.src);
+    } else if (targetElement.classList.contains('card__delete-button')) {
+        targetElement.closest('.card').remove();
+    }
+});
