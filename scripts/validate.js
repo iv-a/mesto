@@ -30,14 +30,24 @@ const hasInvalidInput = (inputList) => {
     });
 };
 
+// Активация кнопки submit
+const enableButton = (buttonElement, config) => {
+    buttonElement.classList.remove(config.inactiveButtonClass);
+    buttonElement.disabled = false;
+};
+
+// Деактивация кнопки submit
+const disableButton = (buttonElement, config) => {
+    buttonElement.classList.add(config.inactiveButtonClass);
+    buttonElement.disabled = true;
+};
+
 // Функция, активирующая или деактивирующая кнопку сабмита в зависимоси от валидности полей формы
 const toggleButtonState = (inputList, buttonElement, config) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.classList.add(config.inactiveButtonClass);
-        buttonElement.disabled = true;
+        disableButton(buttonElement, config)
     } else {
-        buttonElement.classList.remove(config.inactiveButtonClass);
-        buttonElement.disabled = false;
+        enableButton(buttonElement, config)
     }
 };
 
@@ -60,6 +70,8 @@ const enableValidation = (config) => {
     formList.forEach((formElement) => {
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            const buttonElement = formElement.querySelector(config.submitButtonSelector);
+            disableButton(buttonElement, config);
         });
         setEventListeners(formElement, config)
     });

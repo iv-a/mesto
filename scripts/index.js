@@ -83,9 +83,24 @@ const createCard = (place, link) => {
     const cardElement = cardTemplate.cloneNode(true);
     const cardName = cardElement.querySelector('.card__title');
     const cardImage = cardElement.querySelector('.card__photo');
+    const imageButton = cardElement.querySelector('.card__open-photo-button');
+    const likeButton = cardElement.querySelector('.card__like-button');
+    const deleteButton = cardElement.querySelector('.card__delete-button');
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
+    // Обработчик клика по кнопке лайк
+    likeButton.addEventListener('click', function (evt) {
+        const currentTarget = evt.target;
+        currentTarget.classList.toggle('card__like-button_active');
+    });
+    // Обработчик клика по изображению
+    imageButton.addEventListener('click', () => showImagePopup(place, link));
+    // Обработчик клика по корзине
+    deleteButton.addEventListener('click', function (evt) {
+        const deleteTarget = evt.target;
+        deleteTarget.closest('.card').remove();
+    });
     // Возвращаем созданную карточку
     return cardElement;
 };
@@ -161,9 +176,7 @@ const openPopup = (popup) => {
 const popupEventsHandler = (evt) => {
     const currentPopup = evt.currentTarget;
     const targetElement = evt.target;
-    if (evt.target === currentPopup) {
-        closePopup(currentPopup);
-    } else if (targetElement.classList.contains('popup__close-button')) {
+    if (evt.target === currentPopup || targetElement.classList.contains('popup__close-button')) {
         closePopup(currentPopup);
     }
 };
@@ -213,10 +226,13 @@ addCardButton.addEventListener('click', () => {
 // Обработчик сабмита формы добавления новой карточки
 addCardPopup.querySelector('.popup__form').addEventListener('submit', formAddCardSubmitHandler);
 
+
+// ДЕЛЕГИРОВАНИЕ СОБЫТИЙ
 // Обработчик событий на списке карточек.
 //  Если нажали на "Лайк", то кнопка меняет цвет.
 //  Если нажали на картинку, то открывается попап с ней.
 //  Если нажали на "Корзину", то карточка удаляется.
+/*
 cardsList.addEventListener('click', (evt) => {
     const targetElement = evt.target;
     if (targetElement.classList.contains('card__like-button')) {
@@ -227,3 +243,4 @@ cardsList.addEventListener('click', (evt) => {
         targetElement.closest('.card').remove();
     }
 });
+*/
