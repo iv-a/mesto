@@ -73,9 +73,6 @@ function createCard(place, link) {
     const cardElement = cardTemplate.cloneNode(true);
     const cardName = cardElement.querySelector('.card__title');
     const cardImage = cardElement.querySelector('.card__photo');
-    const imageButton = cardElement.querySelector('.card__open-photo-button');
-    const likeButton = cardElement.querySelector('.card__like-button');
-    const deleteButton = cardElement.querySelector('.card__delete-button');
     cardImage.src = link;
     cardImage.alt = place;
     cardName.textContent = place;
@@ -129,16 +126,56 @@ function formEditProfileSubmitHandler (evt) {
     closePopup(editProfilePopup);
 }
 
+// Функция сброса полей формы
+const resetForm = (popup) => {
+    const currentForm = popup.querySelector('.popup__form');
+    if (currentForm) {
+        currentForm.reset();
+    }
+};
+
 // Функция закрытия попапа
 const closePopup = (popup) => {
     popup.classList.remove('popup_opened');
+    unsetPopupEventListener(popup);
+    resetForm(popup);
 };
 
 // Функция открытия попапа
 const openPopup = (popup) => {
     popup.classList.add('popup_opened');
-    const closeButton = popup.querySelector('.popup__close-button');
-    closeButton.addEventListener('click', () => closePopup(popup));
+    setPopupEventListener(popup);
+};
+
+// Обработчик кликов на оверлей и на кнопку "Закрыть".
+const popupEventsHandler = (evt) => {
+    const currentPopup = evt.currentTarget;
+    const targetElement = evt.target;
+    if (evt.target === currentPopup) {
+        closePopup(currentPopup);
+    } else if (targetElement.classList.contains('popup__close-button')) {
+        closePopup(currentPopup);
+    }
+};
+
+// Обработчик нажатия на клавишу Esc.
+const escKeyHandler = (evt) => {
+    if (evt.key === 'Escape') {
+        const currentPopup = document.querySelector('.popup_opened');
+        closePopup(currentPopup);
+    }
+};
+
+// Установка обработчиков событий попапа.
+const setPopupEventListener = (popup) => {
+    popup.addEventListener('click', popupEventsHandler);
+    document.addEventListener('keydown', escKeyHandler);
+};
+
+// Удаление обработчиков событий попапа.
+const unsetPopupEventListener = (popup) => {
+    popup.removeEventListener('click', popupEventsHandler);
+    document.removeEventListener('keydown', escKeyHandler);
 };
 
 
