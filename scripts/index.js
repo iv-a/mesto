@@ -1,3 +1,6 @@
+import {Card} from './Card.js'
+
+
 // Находим поля, содержащие имя пользователя и информацию о нем.
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
@@ -67,42 +70,11 @@ const initialCardsRender = () => {
             link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
         }
     ];
-    initialCards.forEach((item) => {
-        addCard(cardsList, createCard(item.name, item.link), true);
-    });
-};
 
-// Функция createCard создает DOM элемент карточки.
-// На вход получает название карточки и ссылку на изображение
-const createCard = (place, link) => {
-    // Выбираем template с идентификатором card-template и сохраняем его свойство content в переменную cardTemplate.
-    // Клонируем шаблон, сохраняя результат в переменной cardElement.
-    // В атрибут src изображения с классом card__photo записываем ссылку, в атрибут alt - название.
-    // В заголовок с классом .card__title добавляем название.
-    const cardTemplate = document.querySelector('#card-template').content;
-    const cardElement = cardTemplate.cloneNode(true);
-    const cardName = cardElement.querySelector('.card__title');
-    const cardImage = cardElement.querySelector('.card__photo');
-    const imageButton = cardElement.querySelector('.card__open-photo-button');
-    const likeButton = cardElement.querySelector('.card__like-button');
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    cardImage.src = link;
-    cardImage.alt = place;
-    cardName.textContent = place;
-    // Обработчик клика по кнопке лайк
-    likeButton.addEventListener('click', function (evt) {
-        const currentTarget = evt.target;
-        currentTarget.classList.toggle('card__like-button_active');
+    initialCards.forEach((item) => {
+        const card = new Card(item, '#card-template');
+        addCard(cardsList, card.createCard(), true);
     });
-    // Обработчик клика по изображению
-    imageButton.addEventListener('click', () => showImagePopup(place, link));
-    // Обработчик клика по корзине
-    deleteButton.addEventListener('click', function (evt) {
-        const deleteTarget = evt.target;
-        deleteTarget.closest('.card').remove();
-    });
-    // Возвращаем созданную карточку
-    return cardElement;
 };
 
 // Функция добавления карточки в контейнер.
@@ -118,17 +90,6 @@ const addCard = (container, cardElement, isInitial) => {
     }
 };
 
-// Функция открытия попапа с изображением
-const showImagePopup = (place, link) => {
-    const imagePopup = document.querySelector('.popup_type_view-image');
-    const image = imagePopup.querySelector('.popup__image');
-    const title = imagePopup.querySelector('.popup__image-title');
-    image.src = link;
-    image.alt = place;
-    title.textContent = place;
-    openPopup(imagePopup);
-};
-
 // Обработчик события 'submit' формы добавления новой карточки.
 const formAddCardSubmitHandler = (evt) => {
     // Отменяем стандартную отправку формы,
@@ -136,7 +97,8 @@ const formAddCardSubmitHandler = (evt) => {
     // ввода заголовка новой карточки, ссылки на ее изображение и значение false для условного выражения (isInitial).
     // Закрываем попап добавления новой карточки.
     evt.preventDefault();
-    addCard(cardsList, createCard(placeInput.value, linkInput.value), false);
+    const card = new Card({name: placeInput.value, link: linkInput.value}, '#card-template');
+    addCard(cardsList, card.createCard(), false);
     closePopup(addCardPopup);
 };
 
@@ -226,21 +188,4 @@ addCardButton.addEventListener('click', () => {
 // Обработчик сабмита формы добавления новой карточки
 addCardPopup.querySelector('.popup__form').addEventListener('submit', formAddCardSubmitHandler);
 
-
-// ДЕЛЕГИРОВАНИЕ СОБЫТИЙ
-// Обработчик событий на списке карточек.
-//  Если нажали на "Лайк", то кнопка меняет цвет.
-//  Если нажали на картинку, то открывается попап с ней.
-//  Если нажали на "Корзину", то карточка удаляется.
-/*
-cardsList.addEventListener('click', (evt) => {
-    const targetElement = evt.target;
-    if (targetElement.classList.contains('card__like-button')) {
-        targetElement.classList.toggle('card__like-button_active');
-    } else if (targetElement.classList.contains('card__photo')) {
-        showImagePopup(targetElement.alt, targetElement.src);
-    } else if (targetElement.classList.contains('card__delete-button')) {
-        targetElement.closest('.card').remove();
-    }
-});
-*/
+export {openPopup};
