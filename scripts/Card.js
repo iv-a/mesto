@@ -7,6 +7,7 @@ export class Card {
         this._templateSelector = templateSelector;
     }
 
+    //Функция получения разметки шаблона и его клонирования
     _getTemplate() {
         return document
             .querySelector(this._templateSelector)
@@ -15,16 +16,19 @@ export class Card {
             .cloneNode(true);
     }
 
+    // Функция, меняющая цвет кнопки "like"
     _like(evt) {
         const currentTarget = evt.target;
         currentTarget.classList.toggle('card__like-button_active');
     }
 
+    // Функция, удаляющая карточку
     _delete(evt) {
         const deleteTarget = evt.target;
         deleteTarget.closest('.card').remove();
     }
 
+    // Функция открытия попапа с картинкой
     _showImagePopup() {
         const imagePopup = document.querySelector('.popup_type_view-image');
         const image = imagePopup.querySelector('.popup__image');
@@ -35,6 +39,7 @@ export class Card {
         openPopup(imagePopup);
     }
 
+    // Функция, устанавливающая обработчики кликов
     _setEventListeners() {
         this._likeButton = this._cardElement.querySelector('.card__like-button');
         this._deleteButton = this._cardElement.querySelector('.card__delete-button');
@@ -47,9 +52,9 @@ export class Card {
         });
     }
 
+    // Функция создания экземпляра карточки
     createCard() {
         this._cardElement = this._getTemplate();
-
         this._setEventListeners();
 
         this._cardName = this._cardElement.querySelector('.card__title');

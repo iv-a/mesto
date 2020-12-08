@@ -1,5 +1,5 @@
-import {Card} from './Card.js'
-
+import {Card} from './Card.js';
+import {FormValidator} from "./FormValidator.js";
 
 // Находим поля, содержащие имя пользователя и информацию о нем.
 const profile = document.querySelector('.profile');
@@ -171,9 +171,8 @@ initialCardsRender();
 editProfileButton.addEventListener('click', () => {
     nameInput.value = profileName.textContent;
     aboutInput.value = profileAbout.textContent;
-    const saveButton = editProfilePopup.querySelector('.popup__save-button');
-    saveButton.removeAttribute('disabled');
-    saveButton.classList.remove('popup__save-button_disabled');
+    validateEditProfileForm.enableButton();
+    validateEditProfileForm.hideValidationErrors();
     openPopup(editProfilePopup);
 });
 
@@ -182,10 +181,18 @@ editProfilePopup.querySelector('.popup__form').addEventListener('submit', formEd
 
 // Обработчик открытия попапа с формой добавления новой карточки
 addCardButton.addEventListener('click', () => {
+    validateAddCardForm.hideValidationErrors();
     openPopup(addCardPopup);
 });
 
 // Обработчик сабмита формы добавления новой карточки
 addCardPopup.querySelector('.popup__form').addEventListener('submit', formAddCardSubmitHandler);
+
+// Создаем эклемпляр класса FormValidator для формы редактирования профиля и включаем на ней валидацию
+const validateEditProfileForm = new FormValidator(validationConfig, document.querySelector('[name= "editForm"]'));
+validateEditProfileForm.enableValidation();
+// Создаем эклемпляр класса FormValidator для формы добавления карточки и включаем на ней валидацию
+const validateAddCardForm = new FormValidator(validationConfig, document.querySelector('[name="addCardForm"]'));
+validateAddCardForm.enableValidation();
 
 export {openPopup};
