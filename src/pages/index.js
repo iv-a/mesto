@@ -1,5 +1,6 @@
-import {Card} from './Card.js';
-import {FormValidator} from "./FormValidator.js";
+import {Card} from '../components/Card.js';
+import {FormValidator} from "../components/FormValidator.js";
+import Section from '../components/Section.js'
 
 // Находим поля, содержащие имя пользователя и информацию о нем.
 const profile = document.querySelector('.profile');
@@ -25,7 +26,7 @@ const placeInput = addCardPopup.querySelector('.popup__input_type_place');
 const linkInput = addCardPopup.querySelector('.popup__input_type_link');
 
 // Список карточек
-const cardsList = document.querySelector('.cards__list');
+// const cardsList = document.querySelector('.cards__list');
 
 // Объект параметров валидации
 const validationConfig = {
@@ -37,7 +38,47 @@ const validationConfig = {
     errorClass: 'popup__input-error_visible'
 };
 
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
 
+const cardListSelector = '.cards__list';
+
+const cardsList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+        const card = new Card(item, '#card-template');
+        const cardElement = card.createCard();
+        cardsList.addItem(cardElement, true);
+    }
+}, cardListSelector);
+
+cardsList.renderItems();
+
+/*
 // Функция initialCardsRender() при загрузке страницы добавляет на нее шесть карточек из массива initialCards;
 const initialCardsRender = () => {
     // Проходимся по всем элементам массива initialCards
@@ -76,6 +117,8 @@ const initialCardsRender = () => {
         addCard(cardsList, card.createCard(), true);
     });
 };
+*/
+
 
 // Функция добавления карточки в контейнер.
 // На вход получает контейнер, в который будет добавлена карточка,
@@ -165,7 +208,7 @@ const unsetPopupEventListener = (popup) => {
 
 
 // Инициальзация карточек
-initialCardsRender();
+// initialCardsRender();
 
 // Обработчик открытия попапа с формой редактирования профиля
 editProfileButton.addEventListener('click', () => {

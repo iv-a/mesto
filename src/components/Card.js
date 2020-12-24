@@ -1,9 +1,9 @@
-import {openPopup} from "./index.js";
+import {openPopup} from "../pages/index.js";
 
 export class Card {
-    constructor(data, templateSelector){
-        this.place = data.name;
-        this.link = data.link;
+    constructor({ name, link }, templateSelector){
+        this.place = name;
+        this.link = link;
         this._templateSelector = templateSelector;
     }
 
