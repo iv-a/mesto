@@ -1,7 +1,8 @@
-import {Card} from '../components/Card.js';
+import Card from '../components/Card.js';
 import {FormValidator} from "../components/FormValidator.js";
-import Section from '../components/Section.js'
-import Popup from "../components/Popup.js"
+import Section from '../components/Section.js';
+import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 
 // Находим поля, содержащие имя пользователя и информацию о нем.
 const profile = document.querySelector('.profile');
@@ -68,16 +69,28 @@ const initialCards = [
 
 const cardListSelector = '.cards__list';
 
+// const card = new Card(item, '#card-template', {
+//     handleCardClick: () => {
+//     }
+// });
+
 const cardsList = new Section({
     items: initialCards,
     renderer: (item) => {
-        const card = new Card(item, '#card-template');
+        const card = new Card(item, '#card-template', {
+            handleCardClick: () => {
+                popupWithImage.open(card);
+            }
+        });
         const cardElement = card.createCard();
         cardsList.addItem(cardElement, true);
     }
 }, cardListSelector);
 
 cardsList.renderItems();
+
+const imagePopup = document.querySelector('.popup_type_view-image');
+const popupWithImage = new PopupWithImage(imagePopup);
 
 /*
 // Функция initialCardsRender() при загрузке страницы добавляет на нее шесть карточек из массива initialCards;

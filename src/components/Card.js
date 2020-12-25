@@ -1,10 +1,11 @@
 // import {openPopup} from "../pages/index.js";
 
-export class Card {
-    constructor({ name, link }, templateSelector){
+export default class Card {
+    constructor({ name, link }, templateSelector, { handleCardClick }) {
         this.place = name;
         this.link = link;
         this._templateSelector = templateSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     //Функция получения разметки шаблона и его клонирования
@@ -26,10 +27,11 @@ export class Card {
     _delete(evt) {
         const deleteTarget = evt.target;
         deleteTarget.closest('.card').remove();
+        this._removeEventListeners();
     }
 
     // Функция открытия попапа с картинкой
-    _showImagePopup() {
+    /*_showImagePopup() {
         const imagePopup = document.querySelector('.popup_type_view-image');
         const image = imagePopup.querySelector('.popup__image');
         const title = imagePopup.querySelector('.popup__image-title');
@@ -37,7 +39,7 @@ export class Card {
         image.alt = this.place;
         title.textContent = this.place;
         // openPopup(imagePopup);
-    }
+    }*/
 
     // Функция, устанавливающая обработчики кликов
     _setEventListeners() {
@@ -47,9 +49,13 @@ export class Card {
 
         this._likeButton.addEventListener('click', this._like);
         this._deleteButton.addEventListener('click', this._delete);
-        this._imageButton.addEventListener('click', () => {
-            this._showImagePopup();
-        });
+        this._imageButton.addEventListener('click', this._handleCardClick);
+    }
+
+    _removeEventListeners() {
+        this._likeButton.removeEventListener('click', this._like);
+        this._deleteButton.removeEventListener('click', this._delete);
+        this._imageButton.removeEventListener('click', this._handleCardClick);
     }
 
     // Функция создания экземпляра карточки
