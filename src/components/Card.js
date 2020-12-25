@@ -1,4 +1,4 @@
-import {openPopup} from "../pages/index.js";
+// import {openPopup} from "../pages/index.js";
 
 export class Card {
     constructor({ name, link }, templateSelector){
@@ -36,7 +36,7 @@ export class Card {
         image.src = this.link;
         image.alt = this.place;
         title.textContent = this.place;
-        openPopup(imagePopup);
+        // openPopup(imagePopup);
     }
 
     // Функция, устанавливающая обработчики кликов

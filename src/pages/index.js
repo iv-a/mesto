@@ -1,6 +1,7 @@
 import {Card} from '../components/Card.js';
 import {FormValidator} from "../components/FormValidator.js";
 import Section from '../components/Section.js'
+import Popup from "../components/Popup.js"
 
 // Находим поля, содержащие имя пользователя и информацию о нем.
 const profile = document.querySelector('.profile');
@@ -142,7 +143,7 @@ const formAddCardSubmitHandler = (evt) => {
     evt.preventDefault();
     const card = new Card({name: placeInput.value, link: linkInput.value}, '#card-template');
     addCard(cardsList, card.createCard(), false);
-    closePopup(addCardPopup);
+    // closePopup(addCardPopup);
 };
 
 // Обработчик события 'submit' формы редактирования профиля.
@@ -153,7 +154,7 @@ const formEditProfileSubmitHandler = (evt) => {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileAbout.textContent = aboutInput.value;
-    closePopup(editProfilePopup);
+    // closePopup(editProfilePopup);
 };
 
 // Функция сброса полей формы
@@ -164,7 +165,7 @@ const resetForm = (popup) => {
     }
 };
 
-// Функция закрытия попапа
+/*// Функция закрытия попапа
 const closePopup = (popup) => {
     popup.classList.remove('popup_opened');
     unsetPopupEventListener(popup);
@@ -204,7 +205,7 @@ const setPopupEventListener = (popup) => {
 const unsetPopupEventListener = (popup) => {
     popup.removeEventListener('click', popupEventsHandler);
     document.removeEventListener('keydown', escKeyHandler);
-};
+};*/
 
 
 // Инициальзация карточек
@@ -216,7 +217,9 @@ editProfileButton.addEventListener('click', () => {
     aboutInput.value = profileAbout.textContent;
     validateEditProfileForm.enableButton();
     validateEditProfileForm.hideValidationErrors();
-    openPopup(editProfilePopup);
+    const editProfile = new Popup(editProfilePopup);
+    editProfile.open();
+    // openPopup(editProfilePopup);
 });
 
 // Обработчик сабмита формы редактирования профиля
@@ -238,4 +241,4 @@ validateEditProfileForm.enableValidation();
 const validateAddCardForm = new FormValidator(validationConfig, document.querySelector('[name="addCardForm"]'));
 validateAddCardForm.enableValidation();
 
-export {openPopup};
+// export {openPopup};
