@@ -1,5 +1,3 @@
-// import {openPopup} from "../pages/index.js";
-
 export default class Card {
     constructor({ name, link }, templateSelector, { handleCardClick }) {
         this.place = name;
@@ -30,17 +28,6 @@ export default class Card {
         this._removeEventListeners();
     }
 
-    // Функция открытия попапа с картинкой
-    /*_showImagePopup() {
-        const imagePopup = document.querySelector('.popup_type_view-image');
-        const image = imagePopup.querySelector('.popup__image');
-        const title = imagePopup.querySelector('.popup__image-title');
-        image.src = this.link;
-        image.alt = this.place;
-        title.textContent = this.place;
-        // openPopup(imagePopup);
-    }*/
-
     // Функция, устанавливающая обработчики кликов
     _setEventListeners() {
         this._likeButton = this._cardElement.querySelector('.card__like-button');
@@ -52,6 +39,7 @@ export default class Card {
         this._imageButton.addEventListener('click', this._handleCardClick);
     }
 
+    // Функция, удаляющая обработчики кликов
     _removeEventListeners() {
         this._likeButton.removeEventListener('click', this._like);
         this._deleteButton.removeEventListener('click', this._delete);

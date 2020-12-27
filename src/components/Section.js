@@ -6,13 +6,11 @@ export default class Section {
     }
 
     addItem(item, isInitial = false) {
-        // console.log(item);
         if (isInitial) {
             this._container.append(item);
         } else {
             this._container.prepend(item);
         }
-        // this._container.prepend(item);
     }
 
     renderItems() {
@@ -20,6 +18,4 @@ export default class Section {
             this._renderer(item);
         });
     }
-
-
 }
