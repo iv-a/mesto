@@ -22,8 +22,8 @@ import {
 
 // Создаем экземпляр класса UserInfo
 const user = new UserInfo({
-    nameUserSelector: profileName,
-    aboutUserSelector: profileAbout
+    nameUserElement: profileName,
+    aboutUserElement: profileAbout
 });
 
 // Функция, создающая новый экземпляр класса Card и возвращающая DOM-элемент карточки
@@ -49,8 +49,7 @@ const popupWithImage = new PopupWithImage(imagePopup);
 
 // Создаем экземпляр класса PopupWithForm с формой для редактирования профиля
 const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
-    submitHandler: () => {
-        const inputValues = popupWithEditProfileForm._getInputValues();
+    submitHandler: (inputValues) => {
         user.setUserInfo({
             nameInput: inputValues['nameInput'],
             aboutInput: inputValues['aboutInput']
@@ -61,8 +60,7 @@ const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
 
 // Создаем экземпляр класса PopupWithForm с формой для добавления новой карточки
 const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
-    submitHandler: () => {
-        const inputValues = popupWithAddCardForm._getInputValues();
+    submitHandler: (inputValues) => {
         const item = {
             name: inputValues['placeInput'],
             link: inputValues['linkInput']
@@ -94,6 +92,10 @@ const validateAddCardForm = new FormValidator(validationConfig, document.querySe
 
 // Добавляем на страницу исходный массив карточек
 cardsList.renderItems();
+// Устанавливаем слушатели на все попапы
+popupWithImage.setEventListeners();
+popupWithAddCardForm.setEventListeners();
+popupWithEditProfileForm.setEventListeners();
 // Включаем валидацию для формы редактирования профиля
 validateEditProfileForm.enableValidation();
 // Включаем валидацию для формы добавления карточки

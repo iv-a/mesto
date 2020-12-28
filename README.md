@@ -15,6 +15,6 @@
 * Работа с макетом в **Figma**
 ***
 ### Ссылки:
-* [Проектная работа на GitHub Pages](https://zyoma689.github.io/mesto/)
+* [Проектная работа на GitHub Pages](https://zyoma689.github.io/mesto/index.html)
 * [Макет Figma](https://www.figma.com/file/StZjf8HnoeLdiXS7dYrLAh/JavaScript.-Sprint-4)
 * [Чеклист](https://code.s3.yandex.net/web-developer/checklists/new-program/checklist-4/index.html)

@@ -4,6 +4,8 @@ export default class Card {
         this.link = link;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
+        this._like = this._like.bind(this);
+        this._delete = this._delete.bind(this);
     }
 
     //Функция получения разметки шаблона и его клонирования
@@ -34,15 +36,15 @@ export default class Card {
         this._deleteButton = this._cardElement.querySelector('.card__delete-button');
         this._imageButton = this._cardElement.querySelector('.card__open-photo-button');
 
-        this._likeButton.addEventListener('click', this._like.bind(this));
-        this._deleteButton.addEventListener('click', this._delete.bind(this));
+        this._likeButton.addEventListener('click', this._like);
+        this._deleteButton.addEventListener('click', this._delete);
         this._imageButton.addEventListener('click', this._handleCardClick);
     }
 
     // Функция, удаляющая обработчики кликов
     _removeEventListeners() {
-        this._likeButton.removeEventListener('click', this._like.bind(this));
-        this._deleteButton.removeEventListener('click', this._delete.bind(this));
+        this._likeButton.removeEventListener('click', this._like);
+        this._deleteButton.removeEventListener('click', this._delete);
         this._imageButton.removeEventListener('click', this._handleCardClick);
     }
 
