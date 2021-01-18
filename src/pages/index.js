@@ -29,6 +29,7 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
+
 Promise.all([api.getUserData(), api.getInitialCards()])
     .then((values) => {
         const [userData, initialCards] = values;
@@ -70,10 +71,14 @@ const popupWithImage = new PopupWithImage(imagePopup);
 // Создаем экземпляр класса PopupWithForm с формой для редактирования профиля
 const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
     submitHandler: (inputValues) => {
-        user.setUserInfo({
-            nameInput: inputValues['nameInput'],
-            aboutInput: inputValues['aboutInput']
-        });
+        api.editUserData({ name: inputValues['nameInput'], about: inputValues['aboutInput']})
+            .then((data) => {
+                user.setUserInfo(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
         popupWithEditProfileForm.close();
     }
 });
@@ -92,8 +97,7 @@ const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
 
 // Обработчик открытия попапа с формой редактирования профиля
 editProfileButton.addEventListener('click', () => {
-    // nameInput.value = user.getUserInfo().userName;
-    // aboutInput.value = user.getUserInfo().userAbout;
+    user.inputUserInfo(nameInput, aboutInput);
     validateEditProfileForm.enableButton();
     validateEditProfileForm.hideValidationErrors();
     popupWithEditProfileForm.open();

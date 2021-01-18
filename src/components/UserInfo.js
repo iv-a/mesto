@@ -20,8 +20,8 @@ export default class UserInfo {
         this._avatarElement.src = data.avatar;
     }
 
-    changeUserInfo({ nameInput, aboutInput }) {
-        this._nameUserElement.textContent = nameInput;
-        this._aboutUserElement.textContent = aboutInput;
+    inputUserInfo(nameInput, aboutInput) {
+        nameInput.value = this._nameUserElement.textContent;
+        aboutInput.value = this._aboutUserElement.textContent;
     }
 }
