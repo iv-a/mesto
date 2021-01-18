@@ -18,7 +18,7 @@ import {
     addCardPopup,
     cardListSelector,
     imagePopup,
-    initialCards,
+    // initialCards,
     validationConfig
 } from '../utils/constants.js'
 
@@ -29,11 +29,14 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
-Promise.all([api.getUserData()])
+Promise.all([api.getUserData(), api.getInitialCards()])
     .then((values) => {
         const [userData, initialCards] = values;
         user.getUserInfo(userData);
         user.setUserInfo(userData);
+        // console.log(initialCards);
+        cardsList.renderItems(initialCards);
+
     });
 
 
@@ -56,7 +59,6 @@ const createCardElement = (item) => {
 
 // Создаем экземпляр класса Section
 const cardsList = new Section({
-    items: initialCards,
     renderer: (item) => {
         cardsList.addItem(createCardElement(item), true);
     }
@@ -109,7 +111,7 @@ const validateEditProfileForm = new FormValidator(validationConfig, document.que
 const validateAddCardForm = new FormValidator(validationConfig, document.querySelector('[name="addCardForm"]'));
 
 // Добавляем на страницу исходный массив карточек
-cardsList.renderItems();
+// cardsList.renderItems();
 // Устанавливаем слушатели на все попапы
 popupWithImage.setEventListeners();
 popupWithAddCardForm.setEventListeners();
