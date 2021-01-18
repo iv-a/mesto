@@ -5,9 +5,11 @@ import Section from '../components/Section.js';
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 import {
     profileName,
     profileAbout,
+    avatar,
     editProfileButton,
     editProfilePopup,
     nameInput,
@@ -20,10 +22,26 @@ import {
     validationConfig
 } from '../utils/constants.js'
 
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-19',
+    headers: {
+        authorization: 'ee997593-23fa-4bcc-b338-c6e6a2cbbaea',
+        'Content-Type': 'application/json'
+    }
+});
+Promise.all([api.getUserData()])
+    .then((values) => {
+        const [userData, initialCards] = values;
+        user.getUserInfo(userData);
+        user.setUserInfo(userData);
+    });
+
+
 // Создаем экземпляр класса UserInfo
 const user = new UserInfo({
     nameUserElement: profileName,
-    aboutUserElement: profileAbout
+    aboutUserElement: profileAbout,
+    avatarElement: avatar
 });
 
 // Функция, создающая новый экземпляр класса Card и возвращающая DOM-элемент карточки
@@ -72,8 +90,8 @@ const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
 
 // Обработчик открытия попапа с формой редактирования профиля
 editProfileButton.addEventListener('click', () => {
-    nameInput.value = user.getUserInfo().userName;
-    aboutInput.value = user.getUserInfo().userAbout;
+    // nameInput.value = user.getUserInfo().userName;
+    // aboutInput.value = user.getUserInfo().userAbout;
     validateEditProfileForm.enableButton();
     validateEditProfileForm.hideValidationErrors();
     popupWithEditProfileForm.open();

@@ -5,6 +5,8 @@ const profileName = profile.querySelector('.profile__name');
 // Информация о пользователе
 const profileAbout = profile.querySelector('.profile__about');
 // Кнопка редактирования профиля
+const avatar = profile.querySelector('.profile__avatar');
+
 const editProfileButton = profile.querySelector('.profile__edit-button');
 // Попап редактирования профиля
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
@@ -61,6 +63,7 @@ const validationConfig = {
 export {
     profileName,
     profileAbout,
+    avatar,
     editProfileButton,
     editProfilePopup,
     nameInput,
