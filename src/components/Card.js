@@ -1,11 +1,15 @@
 export default class Card {
-    constructor({ name, link }, templateSelector, { handleCardClick }) {
+    constructor({ name, link, likes, _id, owner }, templateSelector, { handleCardClick }) {
         this.place = name;
         this.link = link;
+        this.likes = likes;
+        this.cardId = _id;
+        this.owner = owner;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
         this._like = this._like.bind(this);
         this._delete = this._delete.bind(this);
+
     }
 
     //Функция получения разметки шаблона и его клонирования
@@ -59,6 +63,9 @@ export default class Card {
         this._cardImage.src = this.link;
         this._cardImage.alt = this.place;
         this._cardName.textContent = this.place;
+
+        this.likesCounter = this._cardElement.querySelector('.card__like-counter');
+        this.likesCounter.textContent = this.likes.length;
 
         return this._cardElement;
     }

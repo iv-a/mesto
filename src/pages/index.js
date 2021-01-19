@@ -35,7 +35,6 @@ Promise.all([api.getUserData(), api.getInitialCards()])
         const [userData, initialCards] = values;
         user.getUserInfo(userData);
         user.setUserInfo(userData);
-        // console.log(initialCards);
         cardsList.renderItems(initialCards);
 
     });
