@@ -86,11 +86,18 @@ const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
 // Создаем экземпляр класса PopupWithForm с формой для добавления новой карточки
 const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
     submitHandler: (inputValues) => {
-        const item = {
-            name: inputValues['placeInput'],
-            link: inputValues['linkInput']
-        };
-        cardsList.addItem(createCardElement(item));
+        api.postNewCard({ name: inputValues['placeInput'], link: inputValues['linkInput']})
+            .then((item) => {
+                cardsList.addItem(createCardElement(item));
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+        // const item = {
+        //     name: inputValues['placeInput'],
+        //     link: inputValues['linkInput']
+        // };
+
         popupWithAddCardForm.close();
     }
 });

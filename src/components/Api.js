@@ -60,4 +60,26 @@ export default class Api {
                 console.log(err);
             })
     }
+
+    postNewCard({ name, link }) {
+        return fetch(`${this.baseUrl}/cards `, {
+            method: 'POST',
+            headers: this.headers,
+            body: JSON.stringify({
+                name: name,
+                link: link
+            })
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return(res.json());
+                }
+
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 }
