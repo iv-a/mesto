@@ -18,6 +18,8 @@ const aboutInput = editProfilePopup.querySelector('.popup__input_type_about');
 const addCardButton = profile.querySelector('.profile__add-button');
 // Попап добавления новой карточки
 const addCardPopup = document.querySelector('.popup_type_add-card');
+
+const confirmPopup = document.querySelector('.popup_type_confirm');
 // Селектор контейнера для карточек
 const cardListSelector = '.cards__list';
 // Попап просмотра изображения
@@ -70,6 +72,7 @@ export {
     aboutInput,
     addCardButton,
     addCardPopup,
+    confirmPopup,
     cardListSelector,
     imagePopup,
     initialCards,

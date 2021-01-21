@@ -4,6 +4,7 @@ import FormValidator from "../components/FormValidator.js";
 import Section from '../components/Section.js';
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirmButton from "../components/PopupWithConfirmButton.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import {
@@ -16,6 +17,7 @@ import {
     aboutInput,
     addCardButton,
     addCardPopup,
+    confirmPopup,
     cardListSelector,
     imagePopup,
     // initialCards,
@@ -35,7 +37,8 @@ Promise.all([api.getUserData(), api.getInitialCards()])
         const [userData, initialCards] = values;
         user.getUserInfo(userData);
         user.setUserInfo(userData);
-        cardsList.renderItems(initialCards);
+        cardsList.renderItems(initialCards, userData);
+
 
     });
 
@@ -48,10 +51,23 @@ const user = new UserInfo({
 });
 
 // Функция, создающая новый экземпляр класса Card и возвращающая DOM-элемент карточки
-const createCardElement = (item) => {
-    const card = new Card(item, '#card-template', {
+const createCardElement = (item, userData) => {
+    const card = new Card(item, userData, '#card-template', {
         handleCardClick: () => {
             popupWithImage.open(card);
+        }
+    }, {
+        handleDeleteButtonClick: () => {
+            // console.log(item['_id'])
+            popupWithConfirmButton.open();
+            popupWithConfirmButton.submitHandler(() => {
+                api.deleteCard(item)
+                    .then(() => {
+                        card.delete();
+                        popupWithConfirmButton.close();
+                    })
+            })
+
         }
     });
     return card.createCard();
@@ -59,8 +75,8 @@ const createCardElement = (item) => {
 
 // Создаем экземпляр класса Section
 const cardsList = new Section({
-    renderer: (item) => {
-        cardsList.addItem(createCardElement(item), true);
+    renderer: (item, userData) => {
+        cardsList.addItem(createCardElement(item, userData), true);
     }
 }, cardListSelector);
 
@@ -87,19 +103,17 @@ const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
     submitHandler: (inputValues) => {
         api.postNewCard({ name: inputValues['placeInput'], link: inputValues['linkInput']})
             .then((item) => {
-                cardsList.addItem(createCardElement(item));
+                cardsList.addItem(createCardElement(item, item.owner));
             })
             .catch((err) => {
                 console.log(err)
             });
-        // const item = {
-        //     name: inputValues['placeInput'],
-        //     link: inputValues['linkInput']
-        // };
 
         popupWithAddCardForm.close();
     }
 });
+
+const popupWithConfirmButton = new PopupWithConfirmButton(confirmPopup);
 
 // Обработчик открытия попапа с формой редактирования профиля
 editProfileButton.addEventListener('click', () => {
@@ -126,6 +140,7 @@ const validateAddCardForm = new FormValidator(validationConfig, document.querySe
 popupWithImage.setEventListeners();
 popupWithAddCardForm.setEventListeners();
 popupWithEditProfileForm.setEventListeners();
+popupWithConfirmButton.setEventListeners();
 // Включаем валидацию для формы редактирования профиля
 validateEditProfileForm.enableValidation();
 // Включаем валидацию для формы добавления карточки

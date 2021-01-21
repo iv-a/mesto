@@ -1,15 +1,16 @@
 export default class Card {
-    constructor({ name, link, likes, _id, owner }, templateSelector, { handleCardClick }) {
+    constructor({ name, link, likes, _id, owner }, userData,  templateSelector, { handleCardClick }, { handleDeleteButtonClick }) {
         this.place = name;
         this.link = link;
         this.likes = likes;
         this.cardId = _id;
         this.owner = owner;
+        this.user = userData;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
+        this._handleDeleteButtonClick = handleDeleteButtonClick;
         this._like = this._like.bind(this);
-        this._delete = this._delete.bind(this);
-
+        // this._delete = this._delete.bind(this);
     }
 
     //Функция получения разметки шаблона и его клонирования
@@ -28,10 +29,14 @@ export default class Card {
     }
 
     // Функция, удаляющая карточку
-    _delete(evt) {
-        const deleteTarget = evt.target;
-        deleteTarget.closest('.card').remove();
+    delete() {
+        this._cardElement.remove();
+        this._cardElement = null;
         this._removeEventListeners();
+    }
+
+    getId() {
+        return this.cardId;
     }
 
     // Функция, устанавливающая обработчики кликов
@@ -41,15 +46,21 @@ export default class Card {
         this._imageButton = this._cardElement.querySelector('.card__open-photo-button');
 
         this._likeButton.addEventListener('click', this._like);
-        this._deleteButton.addEventListener('click', this._delete);
+        this._deleteButton.addEventListener('click', this._handleDeleteButtonClick);
         this._imageButton.addEventListener('click', this._handleCardClick);
     }
 
     // Функция, удаляющая обработчики кликов
     _removeEventListeners() {
         this._likeButton.removeEventListener('click', this._like);
-        this._deleteButton.removeEventListener('click', this._delete);
+        this._deleteButton.removeEventListener('click', this._handleDeleteButtonClick);
         this._imageButton.removeEventListener('click', this._handleCardClick);
+    }
+
+    _hideDeleteButton() {
+        if (this.owner['_id'] !== this.user['_id']) {
+            this._deleteButton.classList.add('card__delete-button_disabled');
+        }
     }
 
     // Функция создания экземпляра карточки
@@ -63,6 +74,8 @@ export default class Card {
         this._cardImage.src = this.link;
         this._cardImage.alt = this.place;
         this._cardName.textContent = this.place;
+
+        this._hideDeleteButton();
 
         this.likesCounter = this._cardElement.querySelector('.card__like-counter');
         this.likesCounter.textContent = this.likes.length;
