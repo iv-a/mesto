@@ -12,7 +12,9 @@
     </header>
     <main class="content page__content">
       <section class="profile content__profile">
-        <img class="profile__avatar" src="#" alt="аватар">
+        <button class="profile__avatar-button">
+          <img class="profile__avatar" src="#" alt="аватар">
+        </button>
         <div class="profile__info">
           <h1 class="profile__name"></h1>
           <p class="profile__about"></p>
@@ -29,7 +31,7 @@
     </main>
 
     <footer class="footer page__footer">
-      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+      <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
     </footer>
 
     <div class="popup page__popup popup_type_edit-profile">
@@ -104,6 +106,23 @@
         <h2 class="popup__title">Вы уверены?</h2>
         <form class="popup__form" name="confirmForm" novalidate>
           <button class="popup__save-button" type="submit">Да</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup page__popup popup_type_change-avatar">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        <h2 class="popup__title popup__title_type_change-avatar">Обновить аватар</h2>
+        <form class="popup__form" name="changeAvatarForm" novalidate>
+          <input class="popup__input popup__input_type_link"
+                 id="avatar-link-input"
+                 type="url"
+                 name="avatarLinkInput"
+                 placeholder="Ссылка на картинку"
+                 required>
+          <span class="popup__input-error" id="avatar-link-input-error"></span>
+          <button class="popup__save-button popup__save-button_type_change-avatar" type="submit">сохранить</button>
         </form>
       </div>
     </div>

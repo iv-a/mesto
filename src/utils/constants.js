@@ -4,9 +4,9 @@ const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
 // Информация о пользователе
 const profileAbout = profile.querySelector('.profile__about');
-// Кнопка редактирования профиля
+const changeAvatarButton = profile.querySelector('.profile__avatar-button');
 const avatar = profile.querySelector('.profile__avatar');
-
+// Кнопка редактирования профиля
 const editProfileButton = profile.querySelector('.profile__edit-button');
 // Попап редактирования профиля
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
@@ -18,6 +18,8 @@ const aboutInput = editProfilePopup.querySelector('.popup__input_type_about');
 const addCardButton = profile.querySelector('.profile__add-button');
 // Попап добавления новой карточки
 const addCardPopup = document.querySelector('.popup_type_add-card');
+
+const changeAvatarPopup = document.querySelector('.popup_type_change-avatar');
 
 const confirmPopup = document.querySelector('.popup_type_confirm');
 // Селектор контейнера для карточек
@@ -65,6 +67,7 @@ const validationConfig = {
 export {
     profileName,
     profileAbout,
+    changeAvatarButton,
     avatar,
     editProfileButton,
     editProfilePopup,
@@ -72,6 +75,7 @@ export {
     aboutInput,
     addCardButton,
     addCardPopup,
+    changeAvatarPopup,
     confirmPopup,
     cardListSelector,
     imagePopup,

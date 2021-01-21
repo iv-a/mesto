@@ -10,6 +10,7 @@ import Api from "../components/Api.js";
 import {
     profileName,
     profileAbout,
+    changeAvatarButton,
     avatar,
     editProfileButton,
     editProfilePopup,
@@ -17,6 +18,7 @@ import {
     aboutInput,
     addCardButton,
     addCardPopup,
+    changeAvatarPopup,
     confirmPopup,
     cardListSelector,
     imagePopup,
@@ -129,6 +131,16 @@ const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
     }
 });
 
+const popupWithChangeAvatarForm = new PopupWithForm(changeAvatarPopup, {
+    submitHandler: (inputValue) => {
+        api.changeUserAvatar({ avatar: inputValue['avatarLinkInput'] })
+            .then((res) => {
+                user.setUserInfo(res);
+                popupWithChangeAvatarForm.close();
+            })
+    }
+});
+
 const popupWithConfirmButton = new PopupWithConfirmButton(confirmPopup);
 
 // Обработчик открытия попапа с формой редактирования профиля
@@ -145,10 +157,17 @@ addCardButton.addEventListener('click', () => {
     popupWithAddCardForm.open();
 });
 
+changeAvatarButton.addEventListener('click', () => {
+    validateChangeAvatarForm.hideValidationErrors();
+    popupWithChangeAvatarForm.open();
+});
+
 // Создаем эклемпляр класса FormValidator для формы редактирования профиля
 const validateEditProfileForm = new FormValidator(validationConfig, document.querySelector('[name= "editForm"]'));
 // Создаем эклемпляр класса FormValidator для формы добавления карточки
 const validateAddCardForm = new FormValidator(validationConfig, document.querySelector('[name="addCardForm"]'));
+
+const validateChangeAvatarForm = new FormValidator(validationConfig, document.querySelector('[name="changeAvatarForm"]'));
 
 // Добавляем на страницу исходный массив карточек
 // cardsList.renderItems();
@@ -156,8 +175,11 @@ const validateAddCardForm = new FormValidator(validationConfig, document.querySe
 popupWithImage.setEventListeners();
 popupWithAddCardForm.setEventListeners();
 popupWithEditProfileForm.setEventListeners();
+popupWithChangeAvatarForm.setEventListeners();
 popupWithConfirmButton.setEventListeners();
 // Включаем валидацию для формы редактирования профиля
 validateEditProfileForm.enableValidation();
 // Включаем валидацию для формы добавления карточки
 validateAddCardForm.enableValidation();
+
+validateChangeAvatarForm.enableValidation();

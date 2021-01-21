@@ -2,7 +2,6 @@ export default class Api {
     constructor(options) {
         this.baseUrl = options.baseUrl;
         this.headers = options.headers;
-
     }
 
     getUserData() {
@@ -123,6 +122,27 @@ export default class Api {
         return fetch(`${this.baseUrl}/cards/likes/${card['cardId']}`, {
             method: 'DELETE',
             headers: this.headers
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return(res.json());
+                }
+
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    changeUserAvatar(data) {
+        return fetch(`${this.baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this.headers,
+            body: JSON.stringify({
+                avatar: data.avatar
+            })
         })
             .then((res) => {
                 if (res.ok) {
