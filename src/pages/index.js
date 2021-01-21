@@ -52,13 +52,13 @@ const user = new UserInfo({
 
 // Функция, создающая новый экземпляр класса Card и возвращающая DOM-элемент карточки
 const createCardElement = (item, userData) => {
-    const card = new Card(item, userData, '#card-template', {
+    const card = new Card(item, userData, '#card-template',
+        {
         handleCardClick: () => {
             popupWithImage.open(card);
         }
     }, {
         handleDeleteButtonClick: () => {
-            // console.log(item['_id'])
             popupWithConfirmButton.open();
             popupWithConfirmButton.submitHandler(() => {
                 api.deleteCard(item)
@@ -68,6 +68,22 @@ const createCardElement = (item, userData) => {
                     })
             })
 
+        }
+    }, {
+        handleLikeButtonClick: () => {
+            if (card.isLiked()) {
+                api.removeLike(card)
+                    .then((res) => {
+                        card.getLikesInfo(res);
+                        card.unsetLike();
+                    })
+            } else {
+                api.addLike(card)
+                    .then((res) => {
+                        card.getLikesInfo(res);
+                        card.setLike();
+                    })
+            }
         }
     });
     return card.createCard();
