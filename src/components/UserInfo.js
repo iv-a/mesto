@@ -15,9 +15,11 @@ export default class UserInfo {
     }
 
     setUserInfo(data) {
-        this._nameUserElement.textContent = data['name'];
-        this._aboutUserElement.textContent = data['about'];
-        this._avatarElement.src = data['avatar'];
+        if (data) {
+            this._nameUserElement.textContent = data['name'];
+            this._aboutUserElement.textContent = data['about'];
+            this._avatarElement.src = data['avatar'];
+        }
     }
 
     inputUserInfo(nameInput, aboutInput) {

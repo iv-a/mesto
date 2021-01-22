@@ -54,7 +54,6 @@ export default class Card {
     delete() {
         this._cardElement.remove();
         this._cardElement = null;
-        this._removeEventListeners();
     }
 
     // Функция, устанавливающая обработчики кликов
@@ -66,13 +65,6 @@ export default class Card {
         this._likeButton.addEventListener('click', this._handleLikeButtonClick);
         this._deleteButton.addEventListener('click', this._handleDeleteButtonClick);
         this._imageButton.addEventListener('click', this._handleCardClick);
-    }
-
-    // Функция, удаляющая обработчики кликов
-    _removeEventListeners() {
-        this._likeButton.removeEventListener('click', this._handleLikeButtonClick);
-        this._deleteButton.removeEventListener('click', this._handleDeleteButtonClick);
-        this._imageButton.removeEventListener('click', this._handleCardClick);
     }
 
     _hideDeleteButton() {

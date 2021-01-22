@@ -26,6 +26,7 @@ const confirmPopup = document.querySelector('.popup_type_confirm');
 const cardListSelector = '.cards__list';
 // Попап просмотра изображения
 const imagePopup = document.querySelector('.popup_type_view-image');
+const escButtonKey = 'Escape';
 
 // Объект параметров валидации
 const validationConfig = {
@@ -52,5 +53,6 @@ export {
     confirmPopup,
     cardListSelector,
     imagePopup,
-    validationConfig
+    validationConfig,
+    escButtonKey
 }
