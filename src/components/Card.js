@@ -1,5 +1,11 @@
 export default class Card {
-    constructor({ name, link, likes, _id, owner }, userData,  templateSelector, { handleCardClick }, { handleDeleteButtonClick }, { handleLikeButtonClick }) {
+    constructor({ name, link, likes, _id, owner },
+                userData,
+                templateSelector,
+                { handleCardClick },
+                { handleDeleteButtonClick },
+                { handleLikeButtonClick })
+    {
         this.place = name;
         this.link = link;
         this.likes = likes;
@@ -23,7 +29,7 @@ export default class Card {
 
     getLikesInfo(data) {
         this.likes = data['likes'];
-        this.countLikes();
+        this._countLikes();
     }
 
     isLiked() {
@@ -37,10 +43,9 @@ export default class Card {
 
     unsetLike() {
         this._likeButton.classList.remove('card__like-button_active');
-        this.countLikes();
     }
 
-    countLikes() {
+    _countLikes() {
         this.likesCounter = this._cardElement.querySelector('.card__like-counter');
         this.likesCounter.textContent = this.likes.length;
     }
@@ -89,12 +94,13 @@ export default class Card {
         this._cardName.textContent = this.place;
 
         this._hideDeleteButton();
+
         if (this.isLiked()) {
             this.setLike();
         } else {
             this.unsetLike();
         }
-        this.countLikes();
+        this._countLikes();
 
         return this._cardElement;
     }

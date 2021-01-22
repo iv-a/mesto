@@ -7,17 +7,17 @@ export default class UserInfo {
 
     getUserInfo(data) {
         return {
-            userName: data.name,
-            userAbout: data.about,
-            userAvatar: data.avatar,
-            userId: data._id
+            userName: data['name'],
+            userAbout: data['about'],
+            userAvatar: data['avatar'],
+            userId: data['_id']
         }
     }
 
     setUserInfo(data) {
-        this._nameUserElement.textContent = data.name;
-        this._aboutUserElement.textContent = data.about;
-        this._avatarElement.src = data.avatar;
+        this._nameUserElement.textContent = data['name'];
+        this._aboutUserElement.textContent = data['about'];
+        this._avatarElement.src = data['avatar'];
     }
 
     inputUserInfo(nameInput, aboutInput) {

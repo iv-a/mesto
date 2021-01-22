@@ -22,10 +22,10 @@ import {
     confirmPopup,
     cardListSelector,
     imagePopup,
-    // initialCards,
     validationConfig
 } from '../utils/constants.js'
 
+// Создаем экземпляр класса Api
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-19',
     headers: {
@@ -34,23 +34,24 @@ const api = new Api({
     }
 });
 
-Promise.all([api.getUserData(), api.getInitialCards()])
-    .then((values) => {
-        const [userData, initialCards] = values;
-        user.getUserInfo(userData);
-        user.setUserInfo(userData);
-        cardsList.renderItems(initialCards, userData);
-
-
-    });
-
-
 // Создаем экземпляр класса UserInfo
 const user = new UserInfo({
     nameUserElement: profileName,
     aboutUserElement: profileAbout,
     avatarElement: avatar
 });
+
+// Получаем с сервера информацию о пользователе и список карточек
+Promise.all([api.getUserData(), api.getInitialCards()])
+    .then((values) => {
+        const [userData, initialCards] = values;
+        user.getUserInfo(userData);
+        user.setUserInfo(userData);
+        cardsList.renderItems(initialCards, userData);
+    })
+    .catch((err) => {
+        console.log(err)
+    });
 
 // Функция, создающая новый экземпляр класса Card и возвращающая DOM-элемент карточки
 const createCardElement = (item, userData) => {
@@ -79,11 +80,17 @@ const createCardElement = (item, userData) => {
                         card.getLikesInfo(res);
                         card.unsetLike();
                     })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             } else {
                 api.addLike(card)
                     .then((res) => {
                         card.getLikesInfo(res);
                         card.setLike();
+                    })
+                    .catch((err) => {
+                        console.log(err)
                     })
             }
         }
@@ -115,10 +122,7 @@ const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
             })
             .finally(() => {
                 popupWithEditProfileForm.renderLoading(false, 'Сохранить');
-
             });
-
-
     }
 });
 
@@ -136,13 +140,11 @@ const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
             })
             .finally(() => {
                 popupWithAddCardForm.renderLoading(false, 'Создать');
-
             });
-
-        // popupWithAddCardForm.close();
     }
 });
 
+// Создаем экземпляр класса PopupWithForm с формой для изменения пользовательского аватара
 const popupWithChangeAvatarForm = new PopupWithForm(changeAvatarPopup, {
     submitHandler: (inputValue) => {
         popupWithChangeAvatarForm.renderLoading(true, 'Сохранение...');
@@ -156,12 +158,11 @@ const popupWithChangeAvatarForm = new PopupWithForm(changeAvatarPopup, {
             })
             .finally(() => {
                 popupWithChangeAvatarForm.renderLoading(false, 'Сохранить');
-
             });
-        // popupWithChangeAvatarForm.close();
     }
 });
 
+// Создаем экземпляр класса PopupWithConfirmButton с кнопкой для подтверджения удаления карточки
 const popupWithConfirmButton = new PopupWithConfirmButton(confirmPopup);
 
 // Обработчик открытия попапа с формой редактирования профиля
@@ -178,6 +179,7 @@ addCardButton.addEventListener('click', () => {
     popupWithAddCardForm.open();
 });
 
+// Обработчик открытия попапа с формой изменения пользовательского аватара
 changeAvatarButton.addEventListener('click', () => {
     validateChangeAvatarForm.hideValidationErrors();
     validateChangeAvatarForm.disableButton();
@@ -188,11 +190,9 @@ changeAvatarButton.addEventListener('click', () => {
 const validateEditProfileForm = new FormValidator(validationConfig, document.querySelector('[name= "editForm"]'));
 // Создаем эклемпляр класса FormValidator для формы добавления карточки
 const validateAddCardForm = new FormValidator(validationConfig, document.querySelector('[name="addCardForm"]'));
-
+// Создаем эклемпляр класса FormValidator для формы изменения пользовательского аватара
 const validateChangeAvatarForm = new FormValidator(validationConfig, document.querySelector('[name="changeAvatarForm"]'));
 
-// Добавляем на страницу исходный массив карточек
-// cardsList.renderItems();
 // Устанавливаем слушатели на все попапы
 popupWithImage.setEventListeners();
 popupWithAddCardForm.setEventListeners();
@@ -203,5 +203,5 @@ popupWithConfirmButton.setEventListeners();
 validateEditProfileForm.enableValidation();
 // Включаем валидацию для формы добавления карточки
 validateAddCardForm.enableValidation();
-
+// Включаем валидацию для формы изменения пользовательского аватара
 validateChangeAvatarForm.enableValidation();
