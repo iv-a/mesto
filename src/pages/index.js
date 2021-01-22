@@ -104,40 +104,61 @@ const popupWithImage = new PopupWithImage(imagePopup);
 // Создаем экземпляр класса PopupWithForm с формой для редактирования профиля
 const popupWithEditProfileForm = new PopupWithForm(editProfilePopup, {
     submitHandler: (inputValues) => {
+        popupWithEditProfileForm.renderLoading(true, 'Сохранение...');
         api.editUserData({ name: inputValues['nameInput'], about: inputValues['aboutInput']})
             .then((data) => {
                 user.setUserInfo(data);
+                popupWithEditProfileForm.close();
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                popupWithEditProfileForm.renderLoading(false, 'Сохранить');
+
             });
 
-        popupWithEditProfileForm.close();
+
     }
 });
 
 // Создаем экземпляр класса PopupWithForm с формой для добавления новой карточки
 const popupWithAddCardForm = new PopupWithForm(addCardPopup, {
     submitHandler: (inputValues) => {
+        popupWithAddCardForm.renderLoading(true, 'Создание...');
         api.postNewCard({ name: inputValues['placeInput'], link: inputValues['linkInput']})
             .then((item) => {
                 cardsList.addItem(createCardElement(item, item.owner));
+                popupWithAddCardForm.close();
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
+            })
+            .finally(() => {
+                popupWithAddCardForm.renderLoading(false, 'Создать');
+
             });
 
-        popupWithAddCardForm.close();
+        // popupWithAddCardForm.close();
     }
 });
 
 const popupWithChangeAvatarForm = new PopupWithForm(changeAvatarPopup, {
     submitHandler: (inputValue) => {
+        popupWithChangeAvatarForm.renderLoading(true, 'Сохранение...');
         api.changeUserAvatar({ avatar: inputValue['avatarLinkInput'] })
             .then((res) => {
                 user.setUserInfo(res);
                 popupWithChangeAvatarForm.close();
             })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                popupWithChangeAvatarForm.renderLoading(false, 'Сохранить');
+
+            });
+        // popupWithChangeAvatarForm.close();
     }
 });
 
@@ -146,7 +167,6 @@ const popupWithConfirmButton = new PopupWithConfirmButton(confirmPopup);
 // Обработчик открытия попапа с формой редактирования профиля
 editProfileButton.addEventListener('click', () => {
     user.inputUserInfo(nameInput, aboutInput);
-    validateEditProfileForm.enableButton();
     validateEditProfileForm.hideValidationErrors();
     popupWithEditProfileForm.open();
 });
@@ -154,11 +174,13 @@ editProfileButton.addEventListener('click', () => {
 // Обработчик открытия попапа с формой добавления новой карточки
 addCardButton.addEventListener('click', () => {
     validateAddCardForm.hideValidationErrors();
+    validateAddCardForm.disableButton();
     popupWithAddCardForm.open();
 });
 
 changeAvatarButton.addEventListener('click', () => {
     validateChangeAvatarForm.hideValidationErrors();
+    validateChangeAvatarForm.disableButton();
     popupWithChangeAvatarForm.open();
 });
 

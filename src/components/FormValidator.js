@@ -45,7 +45,7 @@ export default class FormValidator {
     }
 
     // Функция, отключающая кнопку
-    _disableButton() {
+    disableButton() {
         this._submitButton.classList.add(this._validationConfig.inactiveButtonClass);
         this._submitButton.disabled = true;
     }
@@ -53,7 +53,7 @@ export default class FormValidator {
     // Функция, активирующая или деактивирующая кнопку сабмита в зависимоси от валидности полей формы
     _toggleButtonState() {
         if (this._hasInvalidInput()) {
-            this._disableButton();
+            this.disableButton();
         } else {
             this.enableButton();
         }
@@ -82,7 +82,7 @@ export default class FormValidator {
     enableValidation() {
         this._currentForm.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._disableButton()
+            // this._disableButton()
         });
         this._setEventListeners();
     }

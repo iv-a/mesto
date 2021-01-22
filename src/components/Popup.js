@@ -2,9 +2,18 @@ export default class Popup {
     constructor(popupElement) {
         this._popupElement = popupElement;
         this._closeButton = this._popupElement.querySelector('.popup__close-button');
+        this._saveButton = this._popupElement.querySelector('.popup__save-button');
         this._handleEscClose = this._handleEscClose.bind(this);
         this._handleOverlayClose = this._handleOverlayClose.bind(this);
         this._handleButtonClose = this._handleButtonClose.bind(this);
+    }
+
+    renderLoading(isLoading, buttonText) {
+        if (isLoading) {
+            this._saveButton.textContent = buttonText;
+        } else {
+            this._saveButton.textContent = buttonText;
+        }
     }
 
     open() {
